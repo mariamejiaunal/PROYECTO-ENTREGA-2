@@ -17,32 +17,24 @@ print(f"Bienvenido al entrenamiento, recluta {nombre}.")
 print("Di el tamaño de tu campo de entrenamiento (máximo 9x9).")
 
 # se valida la cantidad de filas que el jugador va a ingresar, si el jugador ingresar una cantidad incorrecta, entonces, el juego le regaña 
-while True:
-
+filas = int(input("Vertical (número de filas): "))
+while filas <= 0 or filas > 9:
+    print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA ENTRE 1 Y 9!")
     filas = int(input("Vertical (número de filas): "))
-    if filas <= 0 or filas > 9:
-        print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA ENTRE 1 Y 9!")
-    else:
-        break
     
 # Se valida la cantidad de columnas que el jugador va a ingresar, si el jugador ingresa una cantidad incorrecta, entonces, el juego le regaña
-while True:
+columnas = int(input("Horizontal (número de columnas): "))
+while columnas <= 0 or columnas > 9:
+    print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA ENTRE 1 Y 9!")
     columnas = int(input("Horizontal (número de columnas): "))
-    if columnas <= 0 or columnas > 9:
-        print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA ENTRE 1 Y 9!")
-    else:
-        break
+    
     
 
 # Aqui se valida la cantidad de minas que va a ingresar el usuario, ya que no puede exceder el tamaño del tablero, si no se ingresar un numero valido, el juego vuelve a preguntar y regña al usuario 
-while True:
-        
+minas = int(input("¿Qué tanto quieres sufrir, recluta? Indica la cantidad de minas: "))
+while minas <= 0 or minas >= filas * columnas:
+    print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA DE MINAS!")
     minas = int(input("¿Qué tanto quieres sufrir, recluta? Indica la cantidad de minas: "))
-    if minas <= 0 or minas >= filas * columnas:
-        print("JAJAJA ¿Te crees gracioso, recluta? ¡PON UNA CANTIDAD VÁLIDA DE MINAS!")
-    else:
-        break
-    
 
 print(f"\nBienvenido al campo de entrenamiento, recluta {nombre}!\n")
 
@@ -50,26 +42,26 @@ print(f"\nBienvenido al campo de entrenamiento, recluta {nombre}!\n")
 tablero = [['0' for _ in range(columnas)] for _ in range(filas)]
 
 # esto es para poner las minas en lugares aleatorios del programa 
-for _ in range(minas):
+for i in range(minas):
     while True:
-        f = random.randint(0, filas - 1) #la funcion random.randint nos ayuda a generar las minas aleatorias entre el rango de las filas y las columnas
-        c = random.randint(0, columnas - 1)
-        if tablero[f][c] != '*':
-            tablero[f][c] = '*'
+        Fila = random.randint(0, filas - 1) #la funcion random.randint nos ayuda a generar las minas aleatorias entre el rango de las filas y las columnas
+        Columna = random.randint(0, columnas - 1)
+        if tablero[Fila][Columna] != '*':
+            tablero[Fila][Columna] = '*'
             break
 
 # estos for nos ayudan a calcular los numeros que indican cuantas minas hay al rededor de la casilla seleccionada 
-for f in range(filas):
-    for c in range(columnas):
-        if tablero[f][c] == '*':
+for Fila in range(filas):
+    for Columna in range(columnas):
+        if tablero[Fila][Columna] == '*':
             continue
         contador = 0
-        for i in range(f - 1, f + 2):
-            for j in range(c - 1, c + 2):
+        for i in range(Fila - 1, Fila + 2):
+            for j in range(Columna - 1, Columna + 2):
                 if 0 <= i < filas and 0 <= j < columnas:
                     if tablero[i][j] == '*':
                         contador += 1
-        tablero[f][c] = contador
+        tablero[Fila][Columna] = contador
 
 # este seria el tablero que ve el jugador mientras juega, ya modificado con las casillas, los numeros  y las minas 
 visible = [['.' for _ in range(columnas)] for _ in range(filas)]
@@ -77,14 +69,14 @@ visible = [['.' for _ in range(columnas)] for _ in range(filas)]
 # esta funcion es para que se pueda mostrar el tablero, la hicimos para que no tuvieramos que repetir el mismo bloque de codigo cada vez que se tuviera que actualizar 
 def mostrar(tab):
     print("   ", end="")
-    for c in range(1, columnas + 1):
-        print(c, end=" ")
+    for Columna in range(1, columnas + 1):
+        print(Columna, end=" ")
     print()
     print("  + " + "- " * columnas + "+")
-    for f in range(filas):
-        print(f"{f + 1}| ", end="")
-        for c in range(columnas):
-            print(tab[f][c], end=" ")
+    for Fila in range(filas):
+        print(f"{Fila + 1}| ", end="")
+        for Columna in range(columnas):
+            print(tab[Fila][Columna], end=" ")
         print("|")
     print("  + " + "- " * columnas + "+")
 
@@ -120,12 +112,13 @@ while True:
     # Esta parte del codigo verifica la cantidad de minas por la cantidad de casillas, y si el jugador selecciono la cantidad de casillas sin minas
     # El juego le dara la victoria
     ganado = True
-    for f in range(filas):
-        for c in range(columnas):
-            if visible[f][c] == '.' and tablero[f][c] != '*':
+    for Fila in range(filas):
+        for Columna in range(columnas):
+            if visible[Fila][Columna] == '.' and tablero[Fila][Columna] != '*':
                 ganado = False
 
     if ganado:
         print("\n¡FELICIDADES, RECLUTA! Has superado el entrenamiento")
         mostrar(tablero)
         break
+
