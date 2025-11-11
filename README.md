@@ -1,2 +1,2 @@
-# PROYECTO-ENTREGA-1
-Entrega #1 fundamentos de programación - buscaminas
+# PROYECTO-ENTREGA-2
+Entrega #2 fundamentos de programación - buscaminas
